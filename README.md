@@ -2,6 +2,11 @@
 
 *Ingeniería de Software I · Examen Final 2025‑1*
 
+## 🐱 Integrantes
+
+- Bianca Brunella Aguinaga Pizarro
+- Ariana Valeria Mercado Barbieri
+
 ---
 
 ## 1. Introducción
