@@ -18,6 +18,20 @@ db = DataHandler()
 def list_users():
     return [u.dict(exclude={"rides"}) for u in db.list_users()]
 
+from pydantic import BaseModel
+
+class UserIn(BaseModel):
+    alias: str
+    name: str
+    car_plate: str | None = None
+
+@app.post("/usuarios", status_code=201)
+def create_user(body: UserIn):
+    try:
+        user = db.create_user(body.alias, body.name, body.car_plate)
+        return user
+    except ValueError as e:         # alias duplicado
+        raise HTTPException(422, str(e))
 
 @app.get("/usuarios/{alias}")
 def get_user(alias: str):
