@@ -93,14 +93,38 @@ python -m coverage report -m
 
 ### 5.3 Resultados de cobertura
 
+
 ```
-Name                               Stmts   Miss  Cover
----------------------------------  -----   ----  -----
-src/models/user.py                    15      0   100%
+====================== test session starts ======================
+platform linux -- Python 3.10.12, pytest-8.4.1, pluggy-1.6.0
+rootdir: /home/bianca/Documents/final-software
+plugins: anyio-4.9.0
+collected 10 items                                              
+
+tests/test_datahandler_errors.py ....                     [ 40%]
+tests/test_ride_participation.py .                        [ 50%]
+tests/test_rides.py ....                                  [ 90%]
+tests/test_user_stats.py .                                [100%]
+
+====================== 10 passed in 0.27s =======================
+```
+
+
+```
+Name                               Stmts   Miss  Cover   Missing
+----------------------------------------------------------------
+src/__init__.py                        0      0   100%
+src/data_handler.py                   89     16    82%   24, 39, 52, 66, 80, 87-91, 100-101, 107, 110, 116, 119
+src/models/__init__.py                 6      0   100%
 src/models/ride.py                    23      0   100%
 src/models/ride_participation.py      15      0   100%
-src/data_handler.py                   89     17    81%
-TOTAL                                218     17    92%
+src/models/user.py                    15      0   100%
+tests/test_datahandler_errors.py      30      0   100%
+tests/test_ride_participation.py       6      0   100%
+tests/test_rides.py                   40      0   100%
+tests/test_user_stats.py               6      0   100%
+----------------------------------------------------------------
+TOTAL                                230     16    93%
 ```
 
 *Los modelos clave tienen **100%** de cobertura; la cobertura global es **92%**, superando el umbral del enunciado.*
