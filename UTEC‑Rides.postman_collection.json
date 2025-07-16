@@ -1,0 +1,101 @@
+{
+  "info": {
+    "name": "UTEC Rides API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "6a336846-87f7-4be8-af1f-ride-demo"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:8000" },
+    { "key": "driver_alias", "value": "driver" },
+    { "key": "p1_alias", "value": "p1" },
+    { "key": "ride_id", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "1. Listar usuarios",
+      "request": { "method": "GET", "url": "{{base_url}}/usuarios" }
+    },
+    {
+      "name": "2. Crear ride",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{base_url}}/usuarios/{{driver_alias}}/rides?datetime_iso=2025-08-15T18:00:00&destino=Av%20Javier%20Prado%20456&espacios=2",
+          "host": ["{{base_url}}"],
+          "path": ["usuarios", "{{driver_alias}}", "rides"],
+          "query": [
+            { "key": "datetime_iso", "value": "2025-08-15T18:00:00" },
+            { "key": "destino", "value": "Av Javier Prado 456" },
+            { "key": "espacios", "value": "2" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "3. Solicitar unirse (p1)",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{base_url}}/usuarios/{{driver_alias}}/rides/{{ride_id}}/requestToJoin/{{p1_alias}}?destino=Av%20Arequipa%20789&espacios=1",
+          "host": ["{{base_url}}"],
+          "path": [
+            "usuarios",
+            "{{driver_alias}}",
+            "rides",
+            "{{ride_id}}",
+            "requestToJoin",
+            "{{p1_alias}}"
+          ],
+          "query": [
+            { "key": "destino", "value": "Av Arequipa 789" },
+            { "key": "espacios", "value": "1" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. Aceptar solicitud (p1)",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/usuarios/{{driver_alias}}/rides/{{ride_id}}/accept/{{p1_alias}}"
+      }
+    },
+    {
+      "name": "5. Iniciar ride",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/usuarios/{{driver_alias}}/rides/{{ride_id}}/start"
+      }
+    },
+    {
+      "name": "6. Bajar participante (body JSON)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"alias\": \"{{p1_alias}}\"\n}"
+        },
+        "url": "{{base_url}}/usuarios/{{driver_alias}}/rides/{{ride_id}}/unloadParticipant"
+      }
+    },
+    {
+      "name": "7. Terminar ride",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/usuarios/{{driver_alias}}/rides/{{ride_id}}/end"
+      }
+    },
+    {
+      "name": "8. Ver detalle ride",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/usuarios/{{driver_alias}}/rides/{{ride_id}}"
+      }
+    },
+    {
+      "name": "9. Listar rides activos",
+      "request": { "method": "GET", "url": "{{base_url}}/rides/active" }
+    }
+  ]
+}
