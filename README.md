@@ -111,8 +111,8 @@ TOTAL                                218     17    92%
 
 ```bash
 # Clonar y crear entorno
-git clone https://github.com/<usuario>/task-system-app.git
-cd task-system-app
+git clone https://github.com/Linn0001/final-software.git
+cd final-software
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
