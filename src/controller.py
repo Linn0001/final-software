@@ -1,5 +1,5 @@
 # src/controller.py
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Body
 from datetime import datetime
 from typing import List
 
@@ -13,7 +13,7 @@ app = FastAPI(
 
 db = DataHandler()
 
-# --------------------------- Usuarios --------------------------------------------
+# ---------------------------Usuarios --------------------------------------------
 @app.get("/usuarios", response_model=List[dict])
 def list_users():
     return [u.dict(exclude={"rides"}) for u in db.list_users()]
@@ -27,7 +27,7 @@ def get_user(alias: str):
     return user
 
 
-# --------------------------- Rides de un usuario ---------------------------------
+# ---------------------------Rides de un usuario ---------------------------------
 @app.get("/usuarios/{alias}/rides")
 def rides_by_user(alias: str):
     if not db.get_user(alias):
@@ -68,7 +68,7 @@ def ride_detail(alias: str, ride_id: int):
     return {"ride": enriched}
 
 
-# --------------------------- Acciones sobre rides --------------------------------
+# ---------------------------Acciones sobre rides --------------------------------
 @app.post("/usuarios/{alias}/rides/{ride_id}/requestToJoin/{part_alias}")
 def request_join(alias: str, ride_id: int, part_alias: str, destino: str, espacios: int):
     _assert_driver(alias, ride_id)
@@ -118,7 +118,19 @@ def end(alias: str, ride_id: int):
 
 
 @app.post("/usuarios/{alias}/rides/{ride_id}/unloadParticipant")
-def unload(alias: str, ride_id: int, part_alias: str):
+def unload(
+    alias: str,
+    ride_id: int,
+    part_alias: str | None = None,
+    body: dict | None = Body(None)
+):
+    # Permite:
+    #   - /.../unloadParticipant?part_alias=p1
+    #   - body {"alias": "p1"}
+    if part_alias is None and body and "alias" in body:
+        part_alias = body["alias"]
+    if part_alias is None:
+        raise HTTPException(422, "Debe indicar 'alias' del participante")
     _assert_driver(alias, ride_id)
     try:
         db.unload(ride_id, part_alias)
@@ -126,7 +138,7 @@ def unload(alias: str, ride_id: int, part_alias: str):
         raise HTTPException(_http(e), detail=str(e))
 
 
-# --------------------------- Utilities -------------------------------------------
+# ---------------------------Utilities-------------------------------------------
 def _assert_driver(alias: str, ride_id: int):
     ride = db.get_ride(ride_id)
     if not ride or ride.ride_driver.alias != alias:
@@ -135,3 +147,11 @@ def _assert_driver(alias: str, ride_id: int):
 
 def _http(exc: Exception) -> int:
     return 404 if isinstance(exc, LookupError) else 422
+
+@app.get("/rides/active")
+def list_active_rides():
+    """Devuelve todos los rides con status 'ready' o 'inprogress'."""
+    return [
+        r for r in db._rides.values()     # acceso directo al store in‑memory
+        if r.status in ("ready", "inprogress")
+    ]
