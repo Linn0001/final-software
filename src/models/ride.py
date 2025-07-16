@@ -11,7 +11,10 @@ class Ride(BaseModel):
     final_address: str
     allowed_spaces: int = Field(..., gt=0)
     ride_driver: "User"
-    status: str = Field(default="ready", regex=r"^(ready|inprogress|done)$")
+    status: str = Field(
+        default="ready",
+        pattern=r"^(ready|inprogress|done)$",
+    )
     participants: List["RideParticipation"] = []
 
     # --------------------------------- Lógica --------------------------------------

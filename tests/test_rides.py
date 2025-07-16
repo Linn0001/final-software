@@ -13,7 +13,7 @@ def setup():
     return db
 
 
-# ---------- Caso de éxito ---------------------------------------------------------
+# ----------Caso de éxito ---------------------------------------------------------
 def test_full_flow_success():
     """
     Flujo feliz: crear ride, p1 pide, driver acepta,
@@ -32,7 +32,7 @@ def test_full_flow_success():
     assert rp.status == "done"
 
 
-# ---------- Errores ---------------------------------------------------------------
+# ----------Errores ---------------------------------------------------------------
 def test_join_after_started():
     """Error: solicitar unirse después de iniciado el ride."""
     db = setup()

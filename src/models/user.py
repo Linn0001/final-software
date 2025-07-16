@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 
 
 class User(BaseModel):
-    alias: str = Field(..., regex=r"^[a-zA-Z0-9_]+$")
+    alias: str = Field(..., pattern=r"^[a-zA-Z0-9_]+$") 
     name: str
     car_plate: Optional[str] = None    # Null cuando es solo participante
     rides: List["RideParticipation"] = []

@@ -12,7 +12,7 @@ class RideParticipation(BaseModel):
     confirmation: Optional[datetime] = None
     status: str = Field(
         default="waiting",
-        regex=r"^(waiting|rejected|confirmed|missing|notmarked|inprogress|done)$",
+        pattern=r"^(waiting|rejected|confirmed|missing|notmarked|inprogress|done)$",
     )
 
     # Cambia el estado, garantizando consistencia
