@@ -13,7 +13,25 @@
 
 El presente documento describe el desarrollo de un **backend FastAPI** para gestionar viajes compartidos (“rides”) entre estudiantes de la Universidad de Ingeniería y Tecnología (UTEC). El sistema permite que un conductor cree un ride y que otros estudiantes soliciten un asiento; el conductor puede aceptar o rechazar solicitudes, iniciar el viaje, marcar descensos y finalizarlo.
 
-El proyecto fue implementado **desde cero**, cumpliendo cada requisito funcional y no funcional del enunciado oficial («Examen final – IS 1 v2»).
+El proyecto se puede inicializar de la siguiente manera:
+
+- Para Windows:
+
+```bash
+pip install -r requirements.txt
+uvicorn src.controller:app --reload
+```
+
+- Para Linux:
+Recomendamos inicializar un entorno virtual.
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+uvicorn src.controller:app --reload
+```
+
 
 ---
 
